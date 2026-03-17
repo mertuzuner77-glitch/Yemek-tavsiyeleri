@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Hazel & Mert'in Tavsiyeleri</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: url('https://images.unsplash.com/photo-1600891964599-f61ba0e24092?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+    }
+    .overlay {
+      background: rgba(255,255,255,0.85);
+      padding: 40px;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+      max-width: 600px;
+    }
+    h1 {
+      font-size: 42px;
+      color: #2e7d32;
+      margin-bottom: 20px;
+    }
+    p {
+      font-size: 18px;
+      color: #1b5e20;
+      margin-bottom: 30px;
+    }
+    select, button {
+      padding: 12px 20px;
+      margin: 10px;
+      border-radius: 8px;
+      border: 1px solid #2e7d32;
+      font-size: 18px;
+    }
+    button {
+      background: #2e7d32;
+      color: #fff;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    button:hover {
+      background: #388e3c;
+      transform: scale(1.05);
+    }
+    .alert {
+      color:#c62828;
+      font-size:18px;
+      margin-top:20px;
+      font-weight:bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <h1>Hoşgeldiniz</h1>
+    <p>Hazel & Mert'in özgün tavsiyelerini keşfetmek için seçim yapın:</p>
+
+    <select id="location">
+      <option value="">İl/İlçe Seçiniz</option>
+      <option value="Maslak">Maslak / İstanbul</option>
+      <option value="Beyoğlu">Beyoğlu / İstanbul</option>
+      <option value="Beşiktaş">Beşiktaş / İstanbul</option>
+      <option value="Üsküdar">Üsküdar / İstanbul</option>
+      <option value="Bursa">Bursa</option>
+    </select>
+
+    <select id="category">
+      <option value="">Kategori Seçiniz</option>
+      <option value="yemek">Yemek</option>
+      <option value="bar">Bar/Meyhane</option>
+      <option value="cafe">Cafe</option>
+      <option value="tatli">Tatlı</option>
+    </select>
+
+    <br>
+    <button onclick="goToResults()">Göster</button>
+
+    <div id="alertBox"></div>
+  </div>
+
+  <script>
+    const data = [
+      {name:"Kanatçı Ayaz", category:"yemek", location:"Maslak"},
+      {name:"Kharon Cafe", category:"yemek", location:"Beyoğlu"},
+      {name:"Çiçek Pasajı", category:"bar", location:"Beyoğlu"},
+      {name:"Beltaş Kitap Kafe", category:"cafe", location:"Beşiktaş"},
+      {name:"Resim Müzesi", category:"cafe", location:"Beşiktaş"},
+      {name:"Ünlü Pilavcı Engin Usta", category:"tatli", location:"Bursa"},
+      {name:"Naci Baba Hamsiköy Sütlacı", category:"tatli", location:"Üsküdar"}
+    ];
+
+    function goToResults() {
+      const loc = document.getElementById("location").value;
+      const cat = document.getElementById("category").value;
+      const alertBox = document.getElementById("alertBox");
+      alertBox.innerHTML = "";
+
+      if(!loc || !cat) {
+        alertBox.innerHTML = `<div class="alert">Lütfen hem il/ilçe hem kategori seçiniz!</div>`;
+        return;
+      }
+
+      const filtered = data.filter(item => item.location.includes(loc) && item.category === cat);
+
+      if(filtered.length === 0) {
+        alertBox.innerHTML = `<div class="alert">Bu bölgede bu kategoriye uygun bir seçenek bulunamadı. Lütfen başka kategori deneyin.</div>`;
+      } else {
+        window.location.href = `restoran.html?location=${loc}&category=${cat}`;
+      }
+    }
+  </script>
+</body>
+</html>

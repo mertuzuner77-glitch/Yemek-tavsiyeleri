@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Restoran Sonuçları</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 20px;
+      background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?ixlib=rb-4.0.3&auto=format&fit=crop&w=1950&q=80') no-repeat center center/cover;
+      min-height: 100vh;
+    }
+    h1 {
+      text-align: center;
+      color: #2e7d32;
+      background: rgba(255,255,255,0.85);
+      padding: 20px;
+      border-radius: 12px;
+      max-width: 600px;
+      margin: 20px auto;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+    .card {
+      background: rgba(255,255,255,0.9);
+      padding: 20px;
+      margin: 15px auto;
+      border-radius: 12px;
+      max-width: 600px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+    .puan { color:#2e7d32; font-weight:bold; }
+    .konum { color:#555; font-style:italic; }
+    .alert {
+      background: rgba(255,255,255,0.9);
+      color:#c62828;
+      font-size:18px;
+      margin:30px auto;
+      text-align:center;
+      font-weight:bold;
+      padding:15px;
+      border-radius:10px;
+      max-width:600px;
+      box-shadow:0 4px 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Seçiminize Göre Tavsiyeler</h1>
+  <div id="results"></div>
+
+  <script>
+    const data = [
+      {name:"Kanatçı Ayaz", category:"yemek", location:"Maslak", detail:"Kanat + Patates Kızartması", puan:"Hazel:8 | Mert:7 | Ortalama:7.5"},
+      {name:"Kharon Cafe", category:"yemek", location:"Beyoğlu", detail:"Pizza & Spagetti", puan:"Pizza: Hazel 7 Mert 9 | Spagetti: Hazel 8 Mert 6"},
+      {name:"Çiçek Pasajı", category:"bar", location:"Beyoğlu", detail:"Meyhane", puan:"Hazel:9 | Mert:8"},
+      {name:"Beltaş Kitap Kafe", category:"cafe", location:"Beşiktaş", detail:"Kitap Kafe", puan:"Hazel:10 | Mert:10"},
+      {name:"Resim Müzesi", category:"cafe", location:"Beşiktaş", detail:"Kafe", puan:"Hazel:7 | Mert:8"},
+      {name:"Ünlü Pilavcı Engin Usta", category:"tatli", location:"Bursa", detail:"Pilav + Tatlı", puan:"Hazel:6 | Mert:8"},
+      {name:"Naci Baba Hamsiköy Sütlacı", category:"tatli", location:"Üsküdar", detail:"Sütlaç", puan:"Hazel:8 | Mert:10"}
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const loc = params.get("location");
+    const cat = params.get("category");
+
+    const resultsDiv = document.getElementById("results");
+    const filtered = data.filter(item => item.location.includes(loc) && item.category === cat);
+
+    if(filtered.length === 0) {
+      resultsDiv.innerHTML = `<div class="alert">Bu bölgede bu kategoriye uygun bir seçenek bulunamadı. Başka kategori deneyebilirsiniz.</div>`;
+    } else {
+      filtered.forEach(item => {
+        resultsDiv.innerHTML += `
+          <div class="card">
+            <h3>${item.name}</h3>
+            <p>${item.detail}</p>
+            <p class="puan">${item.puan}</p>
+            <p class="konum">${item.location}</p>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>
